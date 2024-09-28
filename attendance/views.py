@@ -6,12 +6,26 @@ from .models import Student, Teacher, Attendance, Faculty
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
+from django.contrib.auth.models import User
 import requests
 import ipaddress
 from geopy.distance import geodesic
 from .models import Attendance
-
+@login_required
+def add_teacher(request):
+    if not request.user.is_staff:
+        return redirect('home')
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            user = User.objects.create_user(username=username, password=password)
+            Teacher.objects.create(user=user)
+            messages.success(request, 'Teacher added successfully.')
+            return redirect('admin_dashboard')
+        except Exception as e:
+            messages.error(request, f'Error adding teacher: {e}')
+    return render(request, 'attendance/add_teacher.html')
 @login_required
 def mark_attendance(request):
     if request.method == 'POST':
@@ -173,24 +187,7 @@ def add_student(request):
     faculties = Faculty.objects.all()
     return render(request, 'attendance/add_student.html', {'faculties': faculties})
 
-@login_required
-def add_teacher(request):
-    if not request.user.is_staff:
-        return redirect('home')
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        faculty_id = request.POST['faculty']
-        try:
-            user = User.objects.create_user(username=username, password=password)
-            faculty = Faculty.objects.get(id=faculty_id)
-            Teacher.objects.create(user=user, faculty=faculty)
-            messages.success(request, 'Teacher added successfully.')
-            return redirect('admin_dashboard')
-        except Exception as e:
-            messages.error(request, f'Error adding teacher: {e}')
-    faculties = Faculty.objects.all()
-    return render(request, 'attendance/add_teacher.html', {'faculties': faculties})
+
 
 @login_required
 def add_faculty(request):

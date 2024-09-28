@@ -1,12 +1,48 @@
-<!-- attendance/templates/attendance/teacher_home.html -->
 {% extends 'attendance/base.html' %}
 
 {% block title %}Teacher Home{% endblock %}
 
 {% block content %}
-<h2>Welcome, {{ user.username }}</h2>
-<form method="post" action="{% url 'mark_attendance' %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary btn-lg">Mark Attendance</button>
-</form>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body text-center">
+                    <h2 class="card-title mb-4">Welcome, <span class="text-success">{{ user.username }}</span></h2>
+                    <p class="lead mb-4">Ready to take attendance for your class?</p>
+                    <form method="post" action="{% url 'mark_attendance' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow-sm">
+                            <i class="fas fa-clipboard-check me-2"></i>Take Attendance
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 15px;
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    }
+    .card-body {
+        padding: 3rem;
+    }
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+        transition: all 0.3s ease;
+    }
+    .btn-success:hover {
+        background-color: #218838;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .text-success {
+        color: #28a745 !important;
+    }
+</style>
 {% endblock %}

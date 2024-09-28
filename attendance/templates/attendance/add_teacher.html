@@ -3,25 +3,55 @@
 {% block title %}Add Teacher{% endblock %}
 
 {% block content %}
-<h2>Add Teacher</h2>
-<form method="post">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" class="form-control" id="username" name="username" required>
-    </div>
-    <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-    <div class="form-group">
-        <label for="faculty">Faculty:</label>
-        <select class="form-control" id="faculty" name="faculty" required>
-            {% for faculty in faculties %}
-                <option value="{{ faculty.id }}">{{ faculty.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Add Teacher</button>
-</form>
+<style>
+    .form-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+        text-align: center;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        font-weight: bold;
+        color: #495057;
+    }
+    .form-control {
+        border-radius: 3px;
+    }
+    .btn-primary {
+        width: 100%;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+</style>
+
+<div class="form-container">
+    <h2>Add Teacher</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <!-- Блок выбора факультета удален -->
+        <button type="submit" class="btn btn-primary">Add Teacher</button>
+    </form>
+</div>
 {% endblock %}
